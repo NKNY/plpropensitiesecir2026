@@ -1,0 +1,66 @@
+{
+  "Webscope_C14_Set1": {
+    "num_folds": 1,
+    "fold_paths":
+      [
+        "/global/path/to/project_root/data/ltrc_yahoo/set1."
+      ],
+    "num_relevance_labels": 5,
+    "num_nonzero_feat": 519,
+    "num_unique_feat": 501,
+    "query_normalized": true
+  },
+  "MSLR-WEB30k1": {
+    "num_folds": 1,
+    "fold_paths":
+      [
+        "/global/path/to/project_root/data/MSLR-WEB30K/Fold1/"],
+    "num_relevance_labels": 5,
+    "num_nonzero_feat": 136,
+    "num_unique_feat": 131,
+    "query_normalized": false
+  },
+  "MSLR-WEB30k2": {
+    "num_folds": 1,
+    "fold_paths":
+      [
+        "/global/path/to/project_root/data/MSLR-WEB30K/Fold2/"
+        ],
+    "num_relevance_labels": 5,
+    "num_nonzero_feat": 136,
+    "num_unique_feat": 131,
+    "query_normalized": false
+  },
+  "MSLR-WEB30k3": {
+    "num_folds": 1,
+    "fold_paths":
+      [
+        "/global/path/to/project_root/data/MSLR-WEB30K/Fold3/"],
+    "num_relevance_labels": 5,
+    "num_nonzero_feat": 136,
+    "num_unique_feat": 131,
+    "query_normalized": false
+  },
+  "MSLR-WEB30k4": {
+    "num_folds": 1,
+    "fold_paths":
+      [
+        "/global/path/to/project_root/data/MSLR-WEB30K/Fold4/"
+        ],
+    "num_relevance_labels": 5,
+    "num_nonzero_feat": 136,
+    "num_unique_feat": 131,
+    "query_normalized": false
+  },
+  "MSLR-WEB30k5": {
+    "num_folds": 1,
+    "fold_paths":
+      [
+        "/global/path/to/project_root/data/MSLR-WEB30K/Fold5/"
+     ],
+    "num_relevance_labels": 5,
+    "num_nonzero_feat": 136,
+    "num_unique_feat": 131,
+    "query_normalized": false
+  }
+}

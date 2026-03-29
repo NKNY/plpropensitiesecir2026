@@ -1,0 +1,439 @@
+{
+  "FOLD": "1",
+  "RUN": {
+    "EPOCHS": 30,
+    "NAME": "RQ3_mslr_logging",
+    "USE_FEAT": [32,82,67,130,42,57,77,109,27,35,54,59,44,52,39,100,21,71,127,91,46,85,37,62,95,94,89,60,119,112,24,45,64,74,4,9,106,111,116,105,6,1,101,31]
+  },
+  "batch_size": 16,
+  "checkpointing": {
+    "__args__": {
+      "f": {
+        "__class__": "CheckpointSaver",
+        "__module__": "mpl.utils.utils"
+      },
+      "x": {
+        "path": {
+          "__args__": {
+            "a": "experiments",
+            "b": "models",
+            "c": "mslr",
+            "d": {
+              "__copy__": "FOLD"
+            },
+            "e": {
+              "__copy__": "RUN.NAME"
+            }
+          },
+          "__class__": "get_path_from_project_root",
+          "__module__": "mpl.utils.utils"
+        },
+        "remove_after_training": 0,
+        "restore_best": 0
+      }
+    },
+    "__func__": "lambda f, x: lambda *args, **kwargs: f(*args, **kwargs, **x)"
+  },
+  "compile": {
+    "loss": {
+      "fullgraph": false,
+      "mode": "reduce-overhead"
+    },
+    "model": {
+      "fullgraph": true,
+      "mode": "reduce-overhead"
+    }
+  },
+  "data": {
+    "__args__": {
+      "f": {
+        "__class__": "dsp_config_to_dataloaders",
+        "__module__": "mpl.utils.data.dataset"
+      },
+      "x": {
+        "custom_rel_params": {},
+        "custom_rel_pickle_params": {
+          "label_pickle_path": {
+            "__args__": [
+              "relevances",
+              "squared",
+              "mslr",
+              {
+                "__copy__": "FOLD"
+              },
+              "relevances.pkl"
+            ],
+            "__class__": "get_path_from_data_root",
+            "__module__": "mpl.utils.utils"
+          },
+          "subsets": [
+            "train",
+            "validation",
+            "test"
+          ]
+        },
+        "dataloader_params": {
+          "test": {
+            "batch_size": {
+              "__copy__": "batch_size"
+            },
+            "collate_fn": {
+              "__args__": {
+                "f": {
+                  "__class__": "collate_queries",
+                  "__module__": "mpl.utils.data.dataset"
+                },
+                "kwargs": {
+                  "batch_size": {
+                    "__copy__": "batch_size"
+                  },
+                  "max_length": {
+                    "__args__": {
+                      "x": {
+                        "__copy__": "compile"
+                      }
+                    },
+                    "__func__": "lambda x: 250 if len(x) > 0 else 0"
+                  }
+                }
+              },
+              "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+            },
+            "num_workers": 4,
+            "pin_memory": 1,
+            "shuffle": 0
+          },
+          "train": {
+            "batch_size": {
+              "__copy__": "batch_size"
+            },
+            "collate_fn": {
+              "__args__": {
+                "f": {
+                  "__class__": "collate_queries",
+                  "__module__": "mpl.utils.data.dataset"
+                },
+                "kwargs": {
+                  "max_length": {
+                    "__args__": {
+                      "x": {
+                        "__copy__": "compile"
+                      }
+                    },
+                    "__func__": "lambda x: 250 if len(x) > 0 else 0"
+                  }
+                }
+              },
+              "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+            },
+            "drop_last": {
+              "__args__": {
+                "x": {
+                  "__copy__": "compile"
+                }
+              },
+              "__func__": "lambda x: True if len(x) > 0 else False"
+            },
+            "num_workers": 4,
+            "pin_memory": 1,
+            "shuffle": 1
+          },
+          "validation": {
+            "batch_size": {
+              "__copy__": "batch_size"
+            },
+            "collate_fn": {
+              "__args__": {
+                "f": {
+                  "__class__": "collate_queries",
+                  "__module__": "mpl.utils.data.dataset"
+                },
+                "kwargs": {
+                  "batch_size": {
+                    "__copy__": "batch_size"
+                  },
+                  "max_length": {
+                    "__args__": {
+                      "x": {
+                        "__copy__": "compile"
+                      }
+                    },
+                    "__func__": "lambda x: 250 if len(x) > 0 else 0"
+                  }
+                }
+              },
+              "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+            },
+            "num_workers": 4,
+            "pin_memory": 1,
+            "shuffle": 0
+          }
+        },
+        "dsp_params": {
+          "dataset_name": {
+            "__args__": {
+              "x": {
+                "__copy__": "FOLD"
+              }
+            },
+            "__func__": "lambda x: f'MSLR-WEB30k{x}'",
+            "feature_normalization": 1
+          },
+          "feature_normalization": 1,
+          "info_path": {
+            "__args__": [
+              "mpl",
+              "utils",
+              "data",
+              "datasets_info.txt"
+            ],
+            "__class__": "get_path_from_project_root",
+            "__module__": "mpl.utils.utils"
+          }
+        },
+        "torch_dataset_params": {
+          "max_query_size": 250,
+          "min_query_size": 2
+        }
+      }
+    },
+    "__func__": "lambda f, x: lambda: f(**x)"
+  },
+  "device": {
+    "__args__": {
+      "x": "placeholder"
+    },
+    "__func__": "lambda x: 'cuda' if __import__('torch.cuda', fromlist=['is_available']).is_available() else 'cpu'"
+  },
+  "eval": {
+    "device": {
+      "__copy__": "device"
+    },
+    "verbose": 1
+  },
+  "loss": {
+    "__args__": {
+      "K": {
+        "__copy__": "vlpl.K"
+      },
+      "N": {
+        "__copy__": "vlpl.N"
+      },
+      "N_loss_estimate": 0,
+      "compile_backward": 1,
+      "compile_backward_params": {
+        "fullgraph": true,
+        "mode": "reduce-overhead"
+      },
+      "dtype": {
+        "__class__": "float32",
+        "__module__": "torch"
+      },
+      "k": {
+        "__copy__": "vlpl.k"
+      },
+      "loss_fn_name": "VLPL1LossFunction",
+      "use_baseline": 0,
+      "y_pred_key": "logits"
+    },
+    "__class__": "VLPLLoss",
+    "__module__": "mpl.losses.vlpl"
+  },
+  "metrics": {
+    "test": {
+      "ENDCG": {
+        "__args__": {
+          "K": {
+            "__copy__": "vlpl.K"
+          },
+          "N": 100,
+          "compile": {
+            "__args__": {
+              "x": {
+                "__copy__": "compile"
+              }
+            },
+            "__func__": "lambda x: len(x) > 0"
+          },
+          "metric_fn": {
+            "__class__": "sample_expected_reward_torch_dataset_normalized",
+            "__module__": "mpl.utils.vlpl"
+          },
+          "name": "ENDCG_test",
+          "position_weights": {
+            "__copy__": "position_weights"
+          },
+          "y_pred_key": "logits"
+        },
+        "__class__": "MetricAccumulator",
+        "__module__": "mpl.metrics.metrics"
+      }
+    },
+    "train": {
+      "ENDCG": {
+        "__args__": {
+          "K": {
+            "__copy__": "vlpl.K"
+          },
+          "N": 100,
+          "compile": {
+            "__args__": {
+              "x": {
+                "__copy__": "compile"
+              }
+            },
+            "__func__": "lambda x: len(x) > 0"
+          },
+          "metric_fn": {
+            "__class__": "sample_expected_reward_torch_dataset_normalized",
+            "__module__": "mpl.utils.vlpl"
+          },
+          "name": "ENDCG_train",
+          "position_weights": {
+            "__copy__": "position_weights"
+          },
+          "y_pred_key": "logits"
+        },
+        "__class__": "MetricAccumulator",
+        "__module__": "mpl.metrics.metrics"
+      }
+    },
+    "validation": {
+      "ENDCG": {
+        "__args__": {
+          "K": {
+            "__copy__": "vlpl.K"
+          },
+          "N": 100,
+          "compile": {
+            "__args__": {
+              "x": {
+                "__copy__": "compile"
+              }
+            },
+            "__func__": "lambda x: len(x) > 0"
+          },
+          "metric_fn": {
+            "__class__": "sample_expected_reward_torch_dataset_normalized",
+            "__module__": "mpl.utils.vlpl"
+          },
+          "name": "ENDCG_validation",
+          "position_weights": {
+            "__copy__": "position_weights"
+          },
+          "y_pred_key": "logits"
+        },
+        "__class__": "MetricAccumulator",
+        "__module__": "mpl.metrics.metrics"
+      }
+    }
+  },
+  "model": {
+    "__args__": {
+      "K": {
+        "__copy__": "vlpl.K"
+      },
+      "N": {
+        "__copy__": "vlpl.N"
+      },
+      "activation": "tanh",
+      "bias_initializer": {
+        "__class__": "normal_",
+        "__module__": "torch.nn.init"
+      },
+      "bias_output": 1,
+      "constrain_outputs": 20,
+      "constrain_outputs_fn": "sigmoid",
+      "fixed_input_dropout_idx": {
+          "__copy__": "RUN.USE_FEAT"
+        },
+      "input_dropout": 0,
+      "k": {
+        "__copy__": "vlpl.k"
+      },
+      "linear_dropout": 0,
+      "n_feat": 131,
+      "n_hidden": 64,
+      "n_hidden_layers": 1,
+      "weight_initializer": {
+        "__args__": {
+          "f": {
+            "__class__": "xavier_uniform_",
+            "__module__": "torch.nn.init"
+          },
+          "kwargs": {
+            "gain": 0.01
+          }
+        },
+        "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+      }
+    },
+    "__class__": "VLPL",
+    "__module__": "mpl.models.vlpl"
+  },
+  "optimizer": {
+    "__args__": {
+      "f": {
+        "__class__": "Adamax",
+        "__module__": "torch.optim"
+      },
+      "x": {
+        "lr": 0.005,
+        "weight_decay": 1e-07
+      }
+    },
+    "__func__": "lambda f, x: lambda params: f(params, **x)"
+  },
+  "pw": "dcg",
+  "rerun_validation": 0,
+  "run_test": 0,
+  "seed": 1,
+  "position_weights": {
+    "__args__": {
+      "K": {
+        "__copy__": "vlpl.K"
+      },
+      "device": {
+        "__copy__": "device"
+      },
+      "dtype": "torch.float32",
+      "path": {
+        "K": {
+          "__copy__": "vlpl.K"
+        },
+        "__args__": {
+          "__args__": {
+            "x": {
+              "__copy__": "pw"
+            }
+          },
+          "__func__": "lambda x: [f'position_weights/{x}.npy']",
+          "other_values": [
+            []
+          ]
+        },
+        "__class__": "get_path_from_data_root",
+        "__module__": "mpl.utils.utils",
+        "device": {
+          "__copy__": "device"
+        },
+        "dtype": "torch.float32"
+      }
+    },
+    "__class__": "load_position_weights_torch",
+    "__module__": "mpl.position_weights"
+  },
+  "train": {
+    "device": {
+      "__copy__": "device"
+    },
+    "epochs": {
+      "__copy__": "RUN.EPOCHS"
+    }
+  },
+  "vlpl": {
+    "K": 10,
+    "N": 1000,
+    "k": 1
+  }
+}

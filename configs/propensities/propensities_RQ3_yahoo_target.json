@@ -1,0 +1,251 @@
+{
+  "FOLD": 1,
+  "K": 10,
+  "MODEL_NAME": "RQ3_yahoo_target",
+  "N": 100000,
+  "chunksize": 10000,
+  "compile": 1,
+  "RUN": {
+    "USE_FEAT": [165,438,398,130,472,2,74,183,441,399,117,314,63,288,255,184,71,317,435,112,379,236,287,339,393,354,47,390,101,128,250,329,426,10,100,175,243,256,132,189,180,452,102,427,316,233,445,257,262,303,421,115,311,265,4,271,199,140,468,25,325,297,453,337,58,234,168,363,124,220,326,59,290,396,14,217,261,458,259,241,5,266,179,91,439,24,16,110,215,432,359,89,306,197,424,345,157,201,146,350,352,386,129,402,373,8,52,36,108,155,79,84,50,80,9,66,54,347,477,137,405,6,232,223,166,323,99,371,500,448,90,412,120,177,362,178,144,455,11,431,41,209,298,436,443,28,321,161,158,87,3,400,238,471,491,320,330,207,194,48,88,19,422,416,75,76,198]
+  },
+  "subset": "test",
+  "method": "MC",
+  "l": 0.00001,
+  "batch_size": 16,
+  "dtype": "float32",
+  "output_root": {
+    "__args__": [
+      "experiments",
+      "propensities",
+      "yahoo",
+      {
+        "__copy__": "FOLD"
+      }
+    ],
+    "__class__": "get_path_from_project_root",
+    "__module__": "mpl.utils.utils"
+  },
+  "saved_model_path": {
+    "__args__": [
+      "experiments",
+      "models",
+      "yahoo",
+      {
+        "__copy__": "FOLD"
+      },
+      {
+        "__copy__": "MODEL_NAME"
+      }
+    ],
+    "__class__": "get_path_from_project_root",
+    "__module__": "mpl.utils.utils"
+  },
+  "seed": 0,
+  "warmup_batches": 2,
+  "data": {
+    "__args__": {
+      "f": {
+        "__class__": "dsp_config_to_dataloaders",
+        "__module__": "mpl.utils.data.dataset"
+      },
+      "x": {
+        "custom_rel_params": {},
+        "custom_rel_pickle_params": {
+          "label_pickle_path": {
+            "__args__": [
+              "relevances",
+              "squared",
+              "yahoo",
+              {
+                "__copy__": "FOLD"
+              },
+              "relevances.pkl"
+            ],
+            "__class__": "get_path_from_data_root",
+            "__module__": "mpl.utils.utils"
+          },
+          "subsets": [
+            "train",
+            "validation",
+            "test"
+          ]
+        },
+        "dataloader_params": {
+          "test": {
+            "batch_size": {
+              "__copy__": "batch_size"
+            },
+            "collate_fn": {
+              "__args__": {
+                "f": {
+                  "__class__": "collate_queries",
+                  "__module__": "mpl.utils.data.dataset"
+                },
+                "kwargs": {
+                  "batch_size": {
+                    "__copy__": "batch_size"
+                  },
+                  "max_length": {
+                    "__args__": {
+                      "x": {
+                        "__copy__": "compile"
+                      }
+                    },
+                    "__func__": "lambda x: 139 if x else 0"
+                  }
+                }
+              },
+              "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+            },
+            "drop_last": {
+              "__args__": {
+                "x": {
+                  "__copy__": "compile"
+                }
+              },
+              "__func__": "lambda x: True if x else False"
+            },
+            "num_workers": 4,
+            "pin_memory": 1,
+            "shuffle": 0
+          },
+          "train": {
+            "batch_size": {
+              "__copy__": "batch_size"
+            },
+            "collate_fn": {
+              "__args__": {
+                "f": {
+                  "__class__": "collate_queries",
+                  "__module__": "mpl.utils.data.dataset"
+                },
+                "kwargs": {
+                  "max_length": {
+                    "__args__": {
+                      "x": {
+                        "__copy__": "compile"
+                      }
+                    },
+                    "__func__": "lambda x: 139 if x else 0"
+                  }
+                }
+              },
+              "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+            },
+            "drop_last": {
+              "__args__": {
+                "x": {
+                  "__copy__": "compile"
+                }
+              },
+              "__func__": "lambda x: True if x else False"
+            },
+            "num_workers": 4,
+            "pin_memory": 1,
+            "shuffle": 1
+          },
+          "validation": {
+            "batch_size": {
+              "__copy__": "batch_size"
+            },
+            "collate_fn": {
+              "__args__": {
+                "f": {
+                  "__class__": "collate_queries",
+                  "__module__": "mpl.utils.data.dataset"
+                },
+                "kwargs": {
+                  "batch_size": {
+                    "__copy__": "batch_size"
+                  },
+                  "max_length": {
+                    "__args__": {
+                      "x": {
+                        "__copy__": "compile"
+                      }
+                    },
+                    "__func__": "lambda x: 139 if x else 0"
+                  }
+                }
+              },
+              "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+            },
+            "drop_last": {
+              "__args__": {
+                "x": {
+                  "__copy__": "compile"
+                }
+              },
+              "__func__": "lambda x: True if x else False"
+            },
+            "num_workers": 4,
+            "pin_memory": 1,
+            "shuffle": 0
+          }
+        },
+        "dsp_params": {
+          "dataset_name": {
+            "__args__": {
+              "x": {
+                "__copy__": "FOLD"
+              }
+            },
+            "__func__": "lambda x: f'Webscope_C14_Set1'",
+            "feature_normalization": 1
+          },
+          "feature_normalization": 1,
+          "info_path": {
+            "__args__": [
+              "mpl",
+              "utils",
+              "data",
+              "datasets_info.txt"
+            ],
+            "__class__": "get_path_from_project_root",
+            "__module__": "mpl.utils.utils"
+          }
+        },
+        "torch_dataset_params": {
+          "max_query_size": 139,
+          "min_query_size": 1
+        }
+      }
+    },
+    "__func__": "lambda f, x: lambda: f(**x)"
+  },
+  "model": {
+    "__args__": {
+      "k": 1,
+      "activation": "sigmoid",
+      "bias_initializer": {
+        "__class__": "normal_",
+        "__module__": "torch.nn.init"
+      },
+      "bias_output": 1,
+      "constrain_outputs": 20,
+      "constrain_outputs_fn": "sigmoid",
+      "input_dropout": 0,
+      "linear_dropout": 0.2,
+      "n_feat": 501,
+      "n_hidden": 128,
+      "n_hidden_layers": 1,
+      "fixed_input_dropout_idx": {
+          "__copy__": "RUN.USE_FEAT"
+        },
+      "weight_initializer": {
+        "__args__": {
+          "f": {
+            "__class__": "xavier_uniform_",
+            "__module__": "torch.nn.init"
+          },
+          "kwargs": {
+            "gain": 0.01
+          }
+        },
+        "__func__": "lambda f, kwargs: lambda x: f(x, **kwargs)"
+      }
+    },
+    "__class__": "VLPL",
+    "__module__": "mpl.models.vlpl"
+  }
+}
